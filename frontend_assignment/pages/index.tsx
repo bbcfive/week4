@@ -5,6 +5,7 @@ import { providers } from "ethers"
 import Head from "next/head"
 import React from "react"
 import styles from "../styles/Home.module.css"
+import identityCommitments from "../public/identityCommitments.json"
 
 export default function Home() {
     const [logs, setLogs] = React.useState("Connect your wallet and greet!")
@@ -22,8 +23,7 @@ export default function Home() {
 
         const identity = new ZkIdentity(Strategy.MESSAGE, message)
         const identityCommitment = identity.genIdentityCommitment()
-        const identityCommitments = await (await fetch("./identityCommitments.json")).json()
-
+        // const identityCommitments = await (await fetch("../public/identityCommitments.json")).json()
         const merkleProof = generateMerkleProof(20, BigInt(0), identityCommitments, identityCommitment)
 
         setLogs("Creating your Semaphore proof...")
@@ -55,6 +55,7 @@ export default function Home() {
 
             setLogs(errorMessage)
         } else {
+            console.log(response)
             setLogs("Your anonymous greeting is onchain :)")
         }
     }
